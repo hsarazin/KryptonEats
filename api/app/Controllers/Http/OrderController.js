@@ -97,19 +97,24 @@ class OrderController {
       return response.status(403).send({message: error, auth})
     }
     const user = await User.findBy('email', auth.mail)
+
+    const order_all = await Order.all()
+    for(let i = 0 ; i < order_all.rows.length ; i++){
+      if(order_all.rows[i].state=='treated' && order_all.rows[i].user_id==user.id)
+        return response.status(403).send({
+          message : "An order is currently being delivered"
+        })
+    }
+
     const ref = this.generateRef()
     const order_toStore = new Order()
     order_toStore.user_id= user.id
     const order_state= "treating." + ref
     order_toStore.state=order_state
     await order_toStore.save()
-    console.log(order_toStore)
 
     const order_inDB=await Order.findBy('state', order_state)
    
-
-    console.log(order_inDB)
-    console.log(products)
     const orderProducts_toStore= []
     for(let i = 0 ; i < products.length; i++){
       const product = await Product.find(products[i].id)
