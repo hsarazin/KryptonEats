@@ -137,6 +137,36 @@ class OrderController {
     })
   }
 
+  async deliver({request, response, params}){
+    const {mail, token} = request.headers()
+    const auth = {mail, token}
+    const id = params.id
+
+    if(!auth)
+      return response.status(403).send({message: "You must be authenticated"})
+    
+      const role=[]
+    try {
+      role[0] = await this.islogged({email: auth.mail, token: auth.token})
+    } catch(error) {
+      return response.status(403).send({
+        message : "An error occured"
+      })
+    }
+    if(role[0]!='courier'){
+      return response.status(403).send({
+        message: "You are not the delivery guy !"
+      })
+    }
+    const order_inDB = await Order.find(id)
+    order_inDB.state='delivered'
+    order_inDB.save()
+    return response.status(200).send({
+      message: "delivered"
+    })
+
+  }
+
   /**
    * Display a single order.
    * GET orders/:id

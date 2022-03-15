@@ -34,6 +34,7 @@ Route.group(() => {
 
 Route.group(() => {
     Route.post('/buy', 'OrderController.store')
+    Route.post('/:id/deliver', 'OrderController.deliver')
 }).prefix('/order')
 
 Route.post('/register', 'SecurityController.register')
