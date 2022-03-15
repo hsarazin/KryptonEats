@@ -1,7 +1,8 @@
 import React from 'react'
 import { Bounce } from 'react-activity'
-import "react-activity/dist/library.css"
+import 'react-activity/dist/library.css'
 
+import Header from './template/header'
 import Product from '../components/product'
 import { getAllProducts } from '../tools/fetchApi'
 
@@ -50,16 +51,16 @@ export default function NewOrder() {
     }
 
     const removeFromCart = (reference) => {
-        // let tmpCart = [...cart]
-        // tmpCart.forEach(_product => {
-        //     if (_product.reference === reference) {
-        //         _product.quantite--
-        //         if (_product.quantite <= 0) {
-        //             tmpCart.pop(_product)
-        //         }
-        //     }
-        // })
-        // setCart(tmpCart)
+        let tmpCart = [...cart]
+        tmpCart.forEach(_product => {
+            if (_product.reference === reference) {
+                _product.quantite--
+                if (_product.quantite <= 0) {
+                    tmpCart.pop(_product)
+                }
+            }
+        })
+        setCart(tmpCart)
     }
 
     const displayError = () => {
@@ -75,8 +76,8 @@ export default function NewOrder() {
 
     return (
         <div style={styles.container}>
+            <Header />
             <div style={styles.main}>
-                <h1 style={styles.title}>🍔 <span style={{color: 'green'}}>Krypton</span>Eats 🍔</h1>
                 <h2>Nouvelle commande</h2>
                 {displayError()}
                 {activityIndicator()}

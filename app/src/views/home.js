@@ -1,9 +1,10 @@
 import React from 'react'
+import Header from './template/header'
 
 export default function Home() {
     return (
         <div style={styles.container}>
-            <h1 style={styles.title}>🍔 <span style={{color: 'green'}}>Krypton</span>Eats 🍔</h1>
+            <Header />
             <a href="/newOrder" style={styles.button}>Commander</a>
             <a href="/myOrders" style={styles.button}>Voir mes commandes</a>
         </div>
