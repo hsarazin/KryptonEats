@@ -1,5 +1,7 @@
 'use strict'
 
+const { RouteResource } = require('@adonisjs/framework/src/Route/Manager')
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -17,3 +19,23 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+Route.group(() => {
+    Route.get('/all','ProductController.index')
+}).prefix('/products')
+
+Route.group(() => {
+    Route.get('/', 'ProductController.ref')
+}).prefix('/product/:ref')
+
+Route.group(() => {
+    Route.post('/dev', 'FixtureController.dev')
+}).prefix('/fixtures')
+
+Route.group(() => {
+    Route.post('/buy', 'OrderController.store')
+}).prefix('/order')
+
+Route.post('/register', 'SecurityController.register')
+Route.post('/login', 'SecurityController.login')
+
