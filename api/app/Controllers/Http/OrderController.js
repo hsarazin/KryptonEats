@@ -100,9 +100,13 @@ class OrderController {
     const ref = this.generateRef()
     const order_toStore = new Order()
     order_toStore.user_id= user.id
-    order_toStore.state="treating." + ref
-    order_toStore.save()
-    const order_inDB = await Order.findBy('state',"treating." + ref)
+    const order_state= "treating." + ref
+    order_toStore.state=order_state
+    await order_toStore.save()
+    console.log(order_toStore)
+
+    const order_inDB=await Order.findBy('state', order_state)
+   
 
     console.log(order_inDB)
     console.log(products)
@@ -126,8 +130,6 @@ class OrderController {
     return response.status(200).send({
       message: "The order is correct"
     })
-
-
   }
 
   /**
