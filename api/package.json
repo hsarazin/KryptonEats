@@ -1,0 +1,19 @@
+{
+  "name": "fr.insa-cvl.kryptoneat.api",
+  "version": "1.0.0",
+  "description": "API for KryptonEat project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsarazin/KryptonEats.git"
+  },
+  "author": "Hugo Sarazin & Baptiste Gauthier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hsarazin/KryptonEats/issues"
+  },
+  "homepage": "https://github.com/hsarazin/KryptonEats#readme"
+}
