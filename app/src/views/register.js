@@ -2,7 +2,8 @@ import React from 'react'
 
 import './register.css'
 import Header from './template/header'
-import { submitLoginFormApi, getUserInfo } from '../tools/fetchApi'
+import { register } from '../tools/authentication'
+import config from '../config'
 
 export default function Login() {
 
@@ -17,7 +18,6 @@ export default function Login() {
     const [password, setPassword] = React.useState("")
     const [confirmPassword, setConfirmPassword] = React.useState("")
     const [error, setError] = React.useState("")
-    const [isSumbitVisible, setIsSubmitVisible] = React.useState(true)
 
     const passwordErrorColor = (confirmPassword.length > 0 && password.length > 0 && password !== confirmPassword) ? 'rgba(255,0,0,0.2)' : 'white'
     const mandatoryFields = [firstName, lastName, addressNumber, addressStreet, city, zipCode, email, password, confirmPassword]
@@ -27,27 +27,27 @@ export default function Login() {
             areAllFieldsFilled = false
     })
 
-    const submitLoginForm = () => {
-        setIsSubmitVisible(false)
-        submitLoginFormApi(email, password)
-        .then(result => {
-            localStorage.setItem('token', result)
-            localStorage.setItem('email', email)
+    const submitRegisterForm = async () => {
+        if (password !== confirmPassword) {
+            setError("Les deux mots de passe ne coïncident pas.")
+            return
+        }
+        const formData = [firstName, lastName, email, password, addressNumber, addressStreet, city, zipCode]
+        if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
+            setError("Seuls les caractères suivants sont autorisés: " + config.ALLOWED_INPUT_CHARACTERS)
+            return
+        }
+        try {
+            await register(formData)
             window.location.href = "/"
-            // getuserinfo (oui c chiant)
-            return getUserInfo()
-        })
-        .then(result => {
-            console.log(result)
-        })
-        .catch(error => {
-            setError(error.toString())
-        })
-        setIsSubmitVisible(true)
+        } 
+        catch(error) {
+            setError(error)
+        }
     }
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} className="formContainer">
         <Header/>
         <h2 style={{color: 'red'}}>{error}</h2>
         <form>
@@ -81,9 +81,9 @@ export default function Login() {
                 <input type="text" value={zipCode} onChange={(v) => { setZipCode(v.target.value) }}></input>
             </div>
         </form>
-        <button disabled={!(areAllFieldsFilled && isSumbitVisible)}
-                style={areAllFieldsFilled ? {} : {backgroundColor:'grey'}}
-                onClick={submitLoginForm}>
+        <button disabled={!(areAllFieldsFilled)}
+                style={areAllFieldsFilled ? {} : {backgroundColor:'grey', cursor: 'not-allowed'}}
+                onClick={submitRegisterForm}>
             {areAllFieldsFilled ? "S'enregistrer" : "Veuillez remplir tous les champs"}
         </button>
     </div>

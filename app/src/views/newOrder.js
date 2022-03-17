@@ -52,15 +52,21 @@ export default function NewOrder() {
 
     const removeFromCart = (reference) => {
         let tmpCart = [...cart]
+
         tmpCart.forEach(_product => {
             if (_product.reference === reference) {
-                _product.quantite--
-                if (_product.quantite <= 0) {
-                    tmpCart.pop(_product)
+                if (_product.quantite <= 1) {
+                    tmpCart = tmpCart.filter(element => { return element.reference !== reference})
+                    return
                 }
+                _product.quantite--
             }
         })
         setCart(tmpCart)
+    }
+
+    const submitOrder = () => {
+        console.log("commander")
     }
 
     const displayError = () => {
@@ -88,8 +94,12 @@ export default function NewOrder() {
                 </div>
             </div>
             <div style={styles.cart}>
-                <h2 style={{alignSelf: 'center', textAlign: 'center'}}>Panier<br></br>Total: {cartPrice}€</h2>
-                <div style={styles.productContainer}>
+                <div style={{...styles.productContainer, flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                    <h2 style={{...styles.cartText, color: 'green', fontSize: 32}}>Panier</h2>
+                    <h2 style={styles.cartText}>Total: {cartPrice}€</h2>
+                    <button style={{...styles.orderButton, backgroundColor: (cartPrice>0 ? 'green':'grey'), cursor: (cartPrice>0 ? 'pointer':'not-allowed')}} onClick={submitOrder}>Commander</button>
+                </div>
+                <div style={{...styles.productContainer, ...styles.cartContainer}}>
                     {cart.map(product => {
                         return <Product data={product} isCart={true} addToCart={addToCart} removeFromCart={removeFromCart} key={product.reference}/>
                     })}
@@ -113,13 +123,18 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: 64,
     },
     productContainer: {
         display: 'flex',
+        flex: 8,
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10,
+        gap: 20,
+    },
+    cartContainer: {
+        flexDirection: 'row',
+        padding: '20px 20px',
+        overflowX: 'scroll',
     },
     cart: {
         display: 'flex',
@@ -128,6 +143,17 @@ const styles = {
         flex: 3,
         justifySelf: 'end',
         height: '20vh',
-        overflowY: 'scroll',
+    },
+    cartText: {
+        margin: 0,
+        textAlign: 'center'
+    },
+    orderButton: {
+        border: 'none',
+        padding: '10px 30px',
+        color: 'white',
+        fontSize: 24,
+        marginTop: 20,
+        cursor: 'pointer',
     }
 }

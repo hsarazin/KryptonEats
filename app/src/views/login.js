@@ -1,7 +1,9 @@
 import React from 'react'
 
 import Header from './template/header'
-import { submitLoginFormApi } from '../tools/fetchApi'
+import './register'
+import { login } from '../tools/authentication'
+import config from '../config'
 
 export default function Login(props) {
 
@@ -16,24 +18,27 @@ export default function Login(props) {
             areAllFieldsFilled = false
     })
 
-    const submitLoginForm = () => {
+    const submitLoginForm = async () => {
         if (!email || !password) {
             setError("Veuillez taper une adresse mail et un mot de passe !")
             return
         }
-        submitLoginFormApi(email, password)
-        .then(result => {
-            const token = result
-            localStorage.setItem('token', token)
+        const formData = [email, password]
+        if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
+            setError("Seuls les caractères suivants sont autorisés: " + config.ALLOWED_INPUT_CHARACTERS)
+            return
+        }
+        try {
+            await login(formData)
             window.location.href = "/"
-        })
-        .catch(error => {
+        }
+        catch (error) {
             setError(error.toString())
-        })
+        }
     }
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} className="formContainer">
         <Header/>
         <h2 style={{color: 'red'}}>{error}</h2>
         <form style={styles.form}>

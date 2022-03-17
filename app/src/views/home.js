@@ -5,12 +5,21 @@ import burgerGif from './images/burger.gif'
 
 
 export default function Home() {
+
+    const onNewOrder = () => {
+        window.location.href = "/newOrder"
+    }
+
+    const onMyOrders = () => {
+        window.location.href = localStorage.getItem('user') ? "/myOrders" : "/login"
+    }
+
     return (
         <div style={styles.container}>
             <Header />
             <img src={burgerGif} style={styles.gif} alt="Animinated Burger!" />
-            <a href="/newOrder" style={styles.button}>Commander</a>
-            <a href="/myOrders" style={styles.button}>Voir mes commandes</a>
+            <button href="/newOrder" onClick={onNewOrder} style={styles.button}>Commander</button>
+            <button href="/myOrders" onClick={onMyOrders} style={{...styles.button, backgroundColor: localStorage.getItem('user') ? 'green' : 'grey'}}>Voir mes commandes</button>
         </div>
     )
 }
@@ -27,12 +36,15 @@ const styles = {
         width: 300,
     },
     button: {
+        border: 'none',
         backgroundColor: 'green',
         color: 'white',
         textDecoration: 'none',
         padding: '20px 50px',
         marginTop: '20px',
-        width: 300,
+        width: 400,
         textAlign: 'center',
+        fontSize: 28,
+        cursor: 'pointer',
     },
 }

@@ -35,3 +35,12 @@
 .header .log a:hover {
     transform: scale(1.1);
 }
+.header .userInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.header .userInfo h2 span {
+    color: green;
+}

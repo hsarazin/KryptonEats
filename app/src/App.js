@@ -7,6 +7,7 @@ import NewOrder from './views/newOrder'
 import MyOrders from './views/myOrders'
 import Login from './views/login'
 import Register from './views/register'
+import ConfirmOrder from './views/confirmOrder';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="myOrders" element={<MyOrders/>}/>
         <Route path="login" element={<Login/>}/>
         <Route path="register" element={<Register/>}/>
+        <Route path="confirmOrder" element={<ConfirmOrder/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>

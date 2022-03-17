@@ -1,42 +1,42 @@
-form {
+.formContainer form {
     display: flex;
     flex-direction: row;
     gap: 50px;
 }
 
-form > div {
+.formContainer form > div {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 20px;
-    padding: 10px;
+    padding: 30px;
 } 
-form > div > h2 {
+.formContainer form > div > h2 {
     color: green;
     text-align: center;
-    padding: 10px 0px;
+    padding: 0px 0px 10px 0px;
     margin: 0;
     border-bottom: 1px green solid;
 }
 
-form h3 {
+.formContainer form h3 {
     margin: 10px 0px 5px 0px;
 }
 
-form input {
+.formContainer form input {
     border: none;
     box-shadow: rgba(0, 64, 0, 0.3) 0px 0px 20px;
     padding: 8px;
+    width: 90%;
 }
-form input:focus {
+.formContainer form input:focus {
     outline: none;
     background-color: rgba(0, 127, 0, 0.1);
 }
 
-button {
+.formContainer button {
     border: none;
     background-color: green;
     color: white;
-    padding: 10px;
+    padding: 30px 50px;
     margin-top: 50px;
-    width: 25%;
     font-size: 20px;
     cursor: pointer;
 }
