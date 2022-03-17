@@ -30,13 +30,17 @@ Route.group(() => {
 
 Route.group(() => {
     Route.post('/dev', 'FixtureController.dev')
+    Route.post('/prod', 'FixtureController.prod')
 }).prefix('/fixtures')
 
 Route.group(() => {
     Route.post('/buy', 'OrderController.store')
     Route.post('/:id/deliver', 'OrderController.deliver')
+    Route.post('/tobedelivered', 'OrderController.getDelivery')
 }).prefix('/order')
 
 Route.post('/register', 'SecurityController.register')
 Route.post('/login', 'SecurityController.login')
+
+Route.post('/user', 'SecurityController.whoami')
 

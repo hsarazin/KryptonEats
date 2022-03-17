@@ -86,13 +86,47 @@ class SecurityController {
         const token = new Token()
         token.user_id=user_inDB.id
         token.token=token_gen
-        token.type="customer"
+        if(email.split('@')[1]=="kryptoneats.fr"){
+            token.type="courier"
+        } else {
+            token.type="customer"
+        }
 
         token.save()
 
         return response.status(201).send({
             message : "User correctly registered",
             token: token_gen
+        })
+    }
+
+    async whoami({request, response}){
+        const {mail, token} = request.headers()
+        const auth = {mail, token}
+
+        if(!mail || !token)
+        return response.status(403).send({message: "You must be authenticated"})
+        
+        const role=[]
+        try {
+            role[0] = await this.islogged({email: auth.mail, token: auth.token})
+        } catch(error) {
+            return response.status(403).send({
+                message : "An error occured"
+            })
+        }
+        const user = await User.findBy('email', mail)
+        const user_toReturn = {
+            nom: user.nom,
+            prenom: user.prenom,
+            email: user.email,
+            adresse_numero: user.adresse_numero,
+            adresse_rue: user.adresse_rue,
+            ville: user.ville,
+            code_postal: user.code_postal
+        }
+        return response.status(200).send({
+            user: user_toReturn
         })
     }
 
@@ -141,9 +175,13 @@ class SecurityController {
         const token_gen = []
         if(!token_user){
             token_gen[0]=new Token()
-            token_gen[0].type="customer"
         } else {
             token_gen[0] = token_user
+        }
+        if(user.email.split('@')[1]=="kryptoneats.fr"){
+            token_gen[0].type="courier"
+        } else {
+            token_gen[0].type="customer"
         }
         token_gen[0].user_id=user.id
         token_gen[0].token = this.generateToken()

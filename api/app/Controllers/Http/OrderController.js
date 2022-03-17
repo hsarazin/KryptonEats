@@ -85,7 +85,7 @@ class OrderController {
     const {mail, token} = request.headers()
     const auth = {mail, token}
 
-    if(!auth)
+    if(!mail || !token)
       return response.status(403).send({message: "You must be authenticated"})
 
     if(!products)
@@ -142,10 +142,10 @@ class OrderController {
     const auth = {mail, token}
     const id = params.id
 
-    if(!auth)
+    if(!mail || !token)
       return response.status(403).send({message: "You must be authenticated"})
     
-      const role=[]
+    const role=[]
     try {
       role[0] = await this.islogged({email: auth.mail, token: auth.token})
     } catch(error) {
@@ -167,6 +167,44 @@ class OrderController {
 
   }
 
+
+  async getDelivery({request, response}){
+    const {mail, token}=request.headers()
+    const auth = {mail, token}
+
+    if(!mail || !token)
+      return response.status(403).send({message: "You must be authenticated"})
+
+    const role=[]
+    try {
+      role[0] = await this.islogged({email: auth.mail, token: auth.token})
+    } catch(error) {
+      return response.status(403).send({
+        message : "An error occured"
+      })
+    }
+    if(role[0]!='courier'){
+      return response.status(403).send({
+        message: "You are not the delivery guy !"
+      })
+    }
+    const orders_inDB=await Order.all()
+    const orders_toDeliver=[]
+    for(let i =0 ; i < orders_inDB.rows.length; i++){
+      if(orders_inDB.rows[i].state=="treated"){
+        const user_toDeliver = await User.find(orders_inDB.rows[i].user_id)
+        orders_toDeliver.push({
+          user: user_toDeliver,
+          order: orders_inDB.rows[i]
+        })
+      }
+    }
+    return response.status(200).send({
+      order_to_be_delivered: orders_toDeliver
+    })
+
+
+  }
   /**
    * Display a single order.
    * GET orders/:id
