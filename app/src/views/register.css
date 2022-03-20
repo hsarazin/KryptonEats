@@ -1,0 +1,42 @@
+.formContainer form {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.formContainer form > div {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 20px;
+    padding: 30px;
+} 
+.formContainer form > div > h2 {
+    color: green;
+    text-align: center;
+    padding: 0px 0px 10px 0px;
+    margin: 0;
+    border-bottom: 1px green solid;
+}
+
+.formContainer form h3 {
+    margin: 10px 0px 5px 0px;
+}
+
+.formContainer form input {
+    border: none;
+    box-shadow: rgba(0, 64, 0, 0.3) 0px 0px 20px;
+    padding: 8px;
+    width: 90%;
+}
+.formContainer form input:focus {
+    outline: none;
+    background-color: rgba(0, 127, 0, 0.1);
+}
+
+.formContainer button {
+    border: none;
+    background-color: green;
+    color: white;
+    padding: 30px 50px;
+    margin-top: 50px;
+    font-size: 20px;
+    cursor: pointer;
+}
