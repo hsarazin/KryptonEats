@@ -24,10 +24,10 @@ export default function Login(props) {
             return
         }
         const formData = [email, password]
-        if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
+        /*if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
             setError("Seuls les caractères suivants sont autorisés: " + config.ALLOWED_INPUT_CHARACTERS)
             return
-        }
+        }*/
         try {
             await login(formData)
             window.location.href = "/"

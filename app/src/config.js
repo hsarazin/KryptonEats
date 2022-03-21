@@ -1,6 +1,6 @@
 const config = {
-    API_ADDRESS: 'https://bgauthier.fr:3333',
-    ALLOWED_INPUT_CHARACTERS: /[^a-zA-Z0-9 @!#$%éèîïâäôö]/g,
+    API_ADDRESS: 'http://localhost:3333',
+    ALLOWED_INPUT_CHARACTERS:  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 }
 
 export default config 
