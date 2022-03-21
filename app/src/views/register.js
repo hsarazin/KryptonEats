@@ -33,10 +33,11 @@ export default function Login() {
             return
         }
         const formData = [firstName, lastName, email, password, addressNumber, addressStreet, city, zipCode]
-        if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
+        /*if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
             setError("Seuls les caractères suivants sont autorisés: " + config.ALLOWED_INPUT_CHARACTERS)
             return
-        }
+        }*/
+        
         try {
             await register(formData)
             window.location.href = "/"

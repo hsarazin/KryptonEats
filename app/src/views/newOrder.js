@@ -41,7 +41,7 @@ export default function NewOrder() {
         tmpCart.forEach(_product => {
             if (_product.reference === product.reference) {
                 doesExist = true
-                _product.quantite += 1
+                _product.quantite ++
             }
         })
         if (!doesExist) {
