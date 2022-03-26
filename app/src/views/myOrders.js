@@ -1,25 +1,25 @@
-import React from 'react'
-import { Bounce } from 'react-activity'
-import 'react-activity/dist/library.css'
+import React from 'react';
+import { Bounce } from 'react-activity';
+import 'react-activity/dist/library.css';
 
-import Header from './template/header'
-import Order from '../components/order'
-import { getAllToBeDeliveredOrders } from '../tools/fetchApi'
+import Header from './template/header';
+import Order from '../components/order';
+import { getAllToBeDeliveredOrders } from '../tools/fetchApi';
 
 export default function MyOrders() {
 
-    const [orders, setOrders] = React.useState([])
-    const [error, setError] = React.useState("")
+    const [orders, setOrders] = React.useState([]);
+    const [error, setError] = React.useState("");
 
     React.useEffect(() => {
         setTimeout(() => {
             // Add delay to show the beautiful loading animation...
             getAllToBeDeliveredOrders()
-            .then(result => { setOrders(result) })
-            .catch(err => { setError(err) })
-        }, 1000)
+                .then(result => { setOrders(result); })
+                .catch(err => { setError(err); });
+        }, 1000);
 
-        setOrders([...orders, {
+        setOrders([...orders, { // hardcoded :(
             id: '48752',
             utilisateur: 'Oui Non',
             liste_produits: [
@@ -45,23 +45,23 @@ export default function MyOrders() {
                 }
             ],
             valide: false
-        }])
-    }, [])
+        }]);
+    }, []);
 
     const delivered = (order) => {
-        order.valide = true
-        console.error("Non implémentée")
-    }
-    
+        order.valide = true;
+        console.error("Non implémentée");
+    };
+
     const displayError = () => {
         if (error !== "")
-            return <h2 style={{color: 'red'}}>Une erreur est apparue : {error.toString()}</h2>
-    }
+            return <h2 style={{ color: 'red' }}>Une erreur est apparue : {error.toString()}</h2>;
+    };
 
     const activityIndicator = () => {
-        if (orders.length === 0)
-            return <Bounce color={'green'} size={50}/>
-    }
+        if (orders && orders.length === 0) // il faut verifier que orders est défini aussi
+            return <Bounce color={'green'} size={50} />;
+    };
 
     return (
         <div style={styles.container}>
@@ -72,12 +72,12 @@ export default function MyOrders() {
                 {activityIndicator()}
                 <div style={styles.orderContainer}>
                     {orders.map(order => {
-                        return <Order data={order} delivered={delivered} key={order.id}/>
+                        return <Order data={order} delivered={delivered} key={order.id} />;
                     })}
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 const styles = {
@@ -94,4 +94,4 @@ const styles = {
         alignItems: 'center',
         paddingTop: 64,
     },
-}
+};

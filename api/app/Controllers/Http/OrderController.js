@@ -27,7 +27,7 @@ class OrderController {
     })
 }
   generateRef() {
-    var c = 'abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
+    var c = 'abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679', // les noms des variables sont illisibles
         n = c.length,
         /* p : chaîne de caractères spéciaux */
         p = '',
@@ -100,7 +100,7 @@ class OrderController {
 
     const order_all = await Order.all()
     for(let i = 0 ; i < order_all.rows.length ; i++){
-      if(order_all.rows[i].state=='treated' && order_all.rows[i].user_id==user.id)
+      if(order_all.rows[i].state==='treated' && order_all.rows[i].user_id===user.id)
         return response.status(403).send({
           message : "An order is currently being delivered"
         })
@@ -153,7 +153,7 @@ class OrderController {
         message : "An error occured"
       })
     }
-    if(role[0]!='courier'){
+    if(role[0]!=='courier'){ // triple equals
       return response.status(403).send({
         message: "You are not the delivery guy !"
       })
@@ -183,7 +183,7 @@ class OrderController {
         message : "An error occured"
       })
     }
-    if(role[0]!='courier'){
+    if(role[0]!=='courier'){
       return response.status(403).send({
         message: "You are not the delivery guy !"
       })
@@ -191,7 +191,7 @@ class OrderController {
     const orders_inDB=await Order.all()
     const orders_toDeliver=[]
     for(let i =0 ; i < orders_inDB.rows.length; i++){
-      if(orders_inDB.rows[i].state=="treated"){
+      if(orders_inDB.rows[i].state==="treated"){
         const user_toDeliver = await User.find(orders_inDB.rows[i].user_id)
         orders_toDeliver.push({
           user: user_toDeliver,
