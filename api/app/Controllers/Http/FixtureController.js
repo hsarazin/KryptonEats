@@ -46,7 +46,7 @@ class FixtureController {
             quantite: 1
         }]
 
-        const products_inDB = await Product.createMany(data)
+        await Product.createMany(data)
 
         return response.status(201).send({
             message : "Fixture correctly loaded",

@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### `npm install`
+### `npm install` // npm ci
 
 Pensez à installer l'ensemble des dépendences avant de lancer l'application web.
 Assurez vous d'avoir le service API opérationnel également !

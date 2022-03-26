@@ -1,83 +1,83 @@
-import React from 'react'
-import { Bounce } from 'react-activity'
-import 'react-activity/dist/library.css'
+import React from 'react';
+import { Bounce } from 'react-activity';
+import 'react-activity/dist/library.css';
 
-import Header from './template/header'
-import Product from '../components/product'
-import { getAllProducts } from '../tools/fetchApi'
+import Header from './template/header';
+import Product from '../components/product';
+import { getAllProducts } from '../tools/fetchApi';
 
 
 export default function NewOrder() {
 
-    const [products, setProducts] = React.useState([])
-    const [error, setError] = React.useState("")
-    const [cart, setCart] = React.useState([])
-    const [cartPrice, setCartPrice] = React.useState(0)
+    const [products, setProducts] = React.useState([]);
+    const [error, setError] = React.useState("");
+    const [cart, setCart] = React.useState([]);
+    const [cartPrice, setCartPrice] = React.useState(0);
 
     React.useEffect(() => {
         // Load cart from localStorage
-        setCart(JSON.parse(localStorage.getItem('cart')))
+        setCart(JSON.parse(localStorage.getItem('cart')));
         setTimeout(() => {
             // Add delay to show the beautiful loading animation...
             getAllProducts()
-            .then(result => { setProducts(result) })
-            .catch(err => { setError(err) })
-        }, 1000)
-    }, [])
+                .then(result => { setProducts(result); })
+                .catch(err => { setError(err); });
+        }, 1000);
+    }, []);
 
     React.useEffect(() => {
         // Update the cart in localStorage
-        localStorage.setItem('cart', JSON.stringify(cart))
-        let price = 0
+        localStorage.setItem('cart', JSON.stringify(cart));
+        let price = 0;
         cart.forEach(_product => {
-            price += _product.prix * _product.quantite
-        })
-        setCartPrice(price.toFixed(2))
-    }, [cart])
+            price += _product.prix * _product.quantite;
+        });
+        setCartPrice(price.toFixed(2));
+    }, [cart]);
 
     const addToCart = (product) => {
-        let doesExist = false
-        let tmpCart = [...cart]
-        tmpCart.forEach(_product => {
+        let doesExist = false;
+        let tmpCart = [...cart];
+        tmpCart.forEach(_product => { // pas élégant du tout pour faire ça 
             if (_product.reference === product.reference) {
-                doesExist = true
-                _product.quantite ++
+                doesExist = true;
+                _product.quantite++;
             }
-        })
+        });
         if (!doesExist) {
-            tmpCart.push(product)
+            tmpCart.push(product); // il aurait fallut remap l'objet produit pour avoir la bonne quantité à 1 au début
         }
-        setCart(tmpCart)
-    }
+        setCart(tmpCart);
+    };
 
     const removeFromCart = (reference) => {
-        let tmpCart = [...cart]
+        let tmpCart = [...cart];
 
         tmpCart.forEach(_product => {
             if (_product.reference === reference) {
                 if (_product.quantite <= 1) {
-                    tmpCart = tmpCart.filter(element => { return element.reference !== reference})
-                    return
+                    tmpCart = tmpCart.filter(element => { return element.reference !== reference; });
+                    return;
                 }
-                _product.quantite--
+                _product.quantite--;
             }
-        })
-        setCart(tmpCart)
-    }
+        });
+        setCart(tmpCart);
+    };
 
     const submitOrder = () => {
-        console.log("commander")
-    }
+        console.log("commander"); // on peut pas commander ? :(
+    };
 
     const displayError = () => {
         if (error !== "")
-            return <p>Une erreur est apparue :{error.toString()}</p>
-    }
+            return <p>Une erreur est apparue :{error.toString()}</p>;
+    };
 
     const activityIndicator = () => {
         if (products.length === 0)
-            return <Bounce color={'green'} size={50}/>
-    }
+            return <Bounce color={'green'} size={50} />;
+    };
 
 
     return (
@@ -89,24 +89,24 @@ export default function NewOrder() {
                 {activityIndicator()}
                 <div style={styles.productContainer}>
                     {products.map(product => {
-                        return <Product data={product} addToCart={addToCart} key={product.reference}/>
+                        return <Product data={product} addToCart={addToCart} key={product.reference} />;
                     })}
                 </div>
             </div>
             <div style={styles.cart}>
-                <div style={{...styles.productContainer, flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                    <h2 style={{...styles.cartText, color: 'green', fontSize: 32}}>Panier</h2>
+                <div style={{ ...styles.productContainer, flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+                    <h2 style={{ ...styles.cartText, color: 'green', fontSize: 32 }}>Panier</h2>
                     <h2 style={styles.cartText}>Total: {cartPrice}€</h2>
-                    <button style={{...styles.orderButton, backgroundColor: (cartPrice>0 ? 'green':'grey'), cursor: (cartPrice>0 ? 'pointer':'not-allowed')}} onClick={submitOrder}>Commander</button>
+                    <button style={{ ...styles.orderButton, backgroundColor: (cartPrice > 0 ? 'green' : 'grey'), cursor: (cartPrice > 0 ? 'pointer' : 'not-allowed') }} onClick={submitOrder}>Commander</button>
                 </div>
-                <div style={{...styles.productContainer, ...styles.cartContainer}}>
+                <div style={{ ...styles.productContainer, ...styles.cartContainer }}>
                     {cart.map(product => {
-                        return <Product data={product} isCart={true} addToCart={addToCart} removeFromCart={removeFromCart} key={product.reference}/>
+                        return <Product data={product} isCart={true} addToCart={addToCart} removeFromCart={removeFromCart} key={product.reference} />;
                     })}
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 const styles = {
@@ -156,4 +156,4 @@ const styles = {
         marginTop: 20,
         cursor: 'pointer',
     }
-}
+};
