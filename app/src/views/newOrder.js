@@ -28,11 +28,25 @@ export default function NewOrder() {
 
     React.useEffect(() => {
         // Update the cart in localStorage
+        if (cart.length === 0) {
+            setCartPrice(0)
+            return
+        }
         localStorage.setItem('cart', JSON.stringify(cart))
         let price = 0
+        let minPrice = cart[0].prix
+        let len = 0
         cart.forEach(_product => {
             price += _product.prix * _product.quantite
+            len += _product.quantite
+            if (_product.prix < minPrice) {
+                minPrice = _product.prix
+            }
         })
+        if (len >= 3) {
+            price -= 0.5 * minPrice
+        }
+
         setCartPrice(price.toFixed(2))
     }, [cart])
 
@@ -57,31 +71,24 @@ export default function NewOrder() {
         tmpCart.forEach(_product => {
             if (_product.reference === reference) {
                 if (_product.quantite <= 1) {
-                    tmpCart = tmpCart.filter(element => { return element.reference !== reference})
-                    return
+                    tmpCart = tmpCart.filter(element => element.reference !== reference)
                 }
-                _product.quantite--
+                else {
+                    _product.quantite--
+                }
             }
         })
         setCart(tmpCart)
     }
 
     const submitOrder = () => {
-        console.log("commander")
-        //window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
         setPranked(true)
-        // l'autoplay ne marche pas toujours :( vilain ublock origin (oui j'ai stalk ton navigateur sur le partage d'écran pardon)
     }
 
     const prank = () => {
         if (pranked) {
-            try {
-                return <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="Pranked" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-                style={{position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%) translateY(-50%)', zIndex: 19072000, height: '100%', width: '100%'}}></iframe>
-            }
-            catch (error) {
-                return <p>oupsi</p>
-            }
+            return <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="Pranked" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+            style={{position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%) translateY(-50%)', zIndex: 19072000, height: '100%', width: '100%'}}></iframe>
         }
     }
 
@@ -111,9 +118,23 @@ export default function NewOrder() {
                 </div>
             </div>
             <div style={styles.cart}>
-                <div style={{...styles.productContainer, flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                <div style={{...styles.productContainer, flex: 2, justifyContent: 'center', alignItems: 'center', gap: 5}}>
                     <h2 style={{...styles.cartText, color: 'green', fontSize: 32}}>Panier</h2>
                     <h2 style={styles.cartText}>Total: {cartPrice}€</h2>
+                    <h3 style={{color: 'green', margin: '0', textAlign: 'center'}}>{(() => {
+                        let len = 0
+                        cart.forEach(product => {
+                            len += product.quantite
+                        })
+                        if (len < 3) {
+                            return `Encore ${3 - len} produits pour profiter d'un produit à -50% !`
+                        }
+                        else {
+                            let normalPrice = 0
+                            cart.forEach(product => normalPrice += product.prix * product.quantite)
+                            return `Vous économisez ${(normalPrice - cartPrice).toFixed(2)}€`
+                        }
+                    })()}</h3>
                     <button style={{...styles.orderButton, backgroundColor: (cartPrice>0 ? 'green':'grey'), cursor: (cartPrice>0 ? 'pointer':'not-allowed')}} onClick={submitOrder}>Commander</button>
                 </div>
                 <div style={{...styles.productContainer, ...styles.cartContainer}}>
