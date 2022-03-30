@@ -1,5 +1,6 @@
 import React from 'react'
 
+import './home.css'
 import Header from './template/header'
 import burgerGif from './images/burger.gif'
 
@@ -15,11 +16,14 @@ export default function Home() {
     }
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} className="home">
             <Header />
             <img src={burgerGif} style={styles.gif} alt="Animinated Burger!" />
             <button href="/newOrder" onClick={onNewOrder} style={styles.button}>Commander</button>
-            <button href="/myOrders" onClick={onMyOrders} style={{...styles.button, backgroundColor: localStorage.getItem('user') ? 'green' : 'grey'}}>Voir mes commandes</button>
+            <button href="/myOrders" 
+                    onClick={onMyOrders} 
+                    style={{...styles.button, backgroundColor: localStorage.getItem('user') ? 'green' : 'grey'}}
+                    className={localStorage.getItem('user') ? '' : 'hoverText'}>Voir mes commandes</button>
         </div>
     )
 }
@@ -46,5 +50,6 @@ const styles = {
         textAlign: 'center',
         fontSize: 28,
         cursor: 'pointer',
+        position: 'relative',
     },
 }

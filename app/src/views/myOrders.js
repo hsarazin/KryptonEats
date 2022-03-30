@@ -55,7 +55,7 @@ export default function MyOrders() {
     
     const displayError = () => {
         if (error !== "")
-            return <h2 style={{color: 'red'}}>Une erreur est apparue : {error.toString()}</h2>
+            return <h2 className="error">Une erreur est apparue : {error.toString()}</h2>
     }
 
     const activityIndicator = () => {

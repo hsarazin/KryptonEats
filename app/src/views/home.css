@@ -1,0 +1,17 @@
+
+.home .hoverText:hover::after {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    content: "Vous devez être connecté pour visualiser vos commandes !";
+    background-color: grey;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: not-allowed;
+}
+.home .hoverText {
+    cursor: not-allowed
+}

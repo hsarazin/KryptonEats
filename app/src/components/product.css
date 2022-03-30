@@ -1,4 +1,4 @@
-.product {
+.productContainer {
     position: relative;
     background-color: white;
     display: flex;
@@ -8,11 +8,11 @@
     max-width: 300px;
     padding-top: 10px;
 }
-.product .field {
+.productContainer .field {
     padding: 5px 30px;
     margin: 0;
 }
-.product button {
+.productContainer button {
     margin: 0;
     width: 100%;
     border: none;
@@ -21,7 +21,7 @@
     padding: 6px 0px;
     cursor: pointer;
 }
-.product .deleteButton {
+.productContainer .deleteButton {
     background-color: darkred;
     position: absolute;
     top: -10px;
@@ -36,7 +36,7 @@
     height: 30px;
     width: 30px;
 }
-.product .footer {
+.productContainer .footer {
     display: flex;
     width: 100%;
     font-size: 24px;
@@ -44,13 +44,13 @@
     margin-top: 10px;
 
 }
-.product button {
+.productContainer button {
     font-size: 20px;
     text-align: center;
     padding: 0px;
     height: 100%;
 }
-.product h4 {
+.productContainer h4 {
     display: flex;
     align-items: center;
     padding: 0 10px;

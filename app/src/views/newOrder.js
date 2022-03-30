@@ -71,11 +71,11 @@ export default function NewOrder() {
 
     const displayError = () => {
         if (error !== "")
-            return <p>Une erreur est apparue :{error.toString()}</p>
+            return <p className="error">Une erreur est apparue : {error.toString()}</p>
     }
 
     const activityIndicator = () => {
-        if (products.length === 0)
+        if (products.length === 0 && error === "")
             return <Bounce color={'green'} size={50}/>
     }
 
@@ -143,6 +143,7 @@ const styles = {
         flex: 3,
         justifySelf: 'end',
         height: '20vh',
+        padding: '0px 20px',
     },
     cartText: {
         margin: 0,

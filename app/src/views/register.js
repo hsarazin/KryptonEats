@@ -33,11 +33,10 @@ export default function Login() {
             return
         }
         const formData = [firstName, lastName, email, password, addressNumber, addressStreet, city, zipCode]
-        /*if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
+        if ([...formData].join('').match(config.ALLOWED_INPUT_CHARACTERS)) {
             setError("Seuls les caractères suivants sont autorisés: " + config.ALLOWED_INPUT_CHARACTERS)
             return
-        }*/
-        
+        }
         try {
             await register(formData)
             window.location.href = "/"
@@ -50,7 +49,7 @@ export default function Login() {
   return (
     <div style={styles.container} className="formContainer">
         <Header/>
-        <h2 style={{color: 'red'}}>{error}</h2>
+        {(() => { if (error !== "") return <h2 className="error">{error}</h2> })}
         <form>
             <div>
                 <h2>Qui êtes-vous ?</h2>
