@@ -13,6 +13,7 @@ export default function NewOrder() {
     const [error, setError] = React.useState("")
     const [cart, setCart] = React.useState([])
     const [cartPrice, setCartPrice] = React.useState(0)
+    const [pranked, setPranked] = React.useState(false)
 
     React.useEffect(() => {
         // Load cart from localStorage
@@ -67,6 +68,21 @@ export default function NewOrder() {
 
     const submitOrder = () => {
         console.log("commander")
+        //window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?autoplay=1"
+        setPranked(true)
+        // l'autoplay ne marche pas toujours :( vilain ublock origin (oui j'ai stalk ton navigateur sur le partage d'écran pardon)
+    }
+
+    const prank = () => {
+        if (pranked) {
+            try {
+                return <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="Pranked" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                style={{position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%) translateY(-50%)', zIndex: 19072000, height: '100%', width: '100%'}}></iframe>
+            }
+            catch (error) {
+                return <p>oupsi</p>
+            }
+        }
     }
 
     const displayError = () => {
@@ -83,6 +99,7 @@ export default function NewOrder() {
     return (
         <div style={styles.container}>
             <Header />
+            {prank()}
             <div style={styles.main}>
                 <h2>Nouvelle commande</h2>
                 {displayError()}
